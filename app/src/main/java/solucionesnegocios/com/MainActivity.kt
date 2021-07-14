@@ -12,6 +12,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        btnLogin.setOnClickListener {
+            val intent = Intent(this, MenuActivity::class.java)
+            startActivity(intent)
+        }
+
         tvGoToRegister.setOnClickListener {
             Toast.makeText(this, getString(R.string.pleas_fill_your_register_data), Toast.LENGTH_SHORT).show()
 
