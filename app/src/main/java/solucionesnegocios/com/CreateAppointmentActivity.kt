@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.activity_create_appointment.*
 import java.util.*
 
 class CreateAppointmentActivity : AppCompatActivity() {
+    private val calendar = Calendar.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_appointment)
@@ -32,13 +33,15 @@ class CreateAppointmentActivity : AppCompatActivity() {
     }
 
     fun onClickScheduledDate(v: View?){
-        val calendar = Calendar.getInstance()
+
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
 
         val listener = DatePickerDialog.OnDateSetListener { datePicker, y, m, d ->
-            Toast.makeText(this, "$y-$m-$d", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "$y-$m-$d", Toast.LENGTH_SHORT).show()
+            calendar.set(y, m, d)
+            etScheduledDate.setText(resources.getString(R.string.date_format, y, m, d))
         }
         DatePickerDialog(this, listener, year, month, dayOfMonth).show()
     }
