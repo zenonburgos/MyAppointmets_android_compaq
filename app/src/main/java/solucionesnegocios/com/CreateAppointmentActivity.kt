@@ -5,12 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.RadioButton
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_create_appointment.*
 import java.util.*
 
 class CreateAppointmentActivity : AppCompatActivity() {
     private val calendar = Calendar.getInstance()
+    private var selectedRadioButton: RadioButton? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_appointment)
@@ -42,7 +45,43 @@ class CreateAppointmentActivity : AppCompatActivity() {
             //Toast.makeText(this, "$y-$m-$d", Toast.LENGTH_SHORT).show()
             calendar.set(y, m, d)
             etScheduledDate.setText(resources.getString(R.string.date_format, y, m, d))
+            displayRadioButtons()
         }
         DatePickerDialog(this, listener, year, month, dayOfMonth).show()
+    }
+
+    private fun displayRadioButtons(){
+        //radioGroup.clearCheck()
+        //radioGroup.removeAllViews()
+
+        selectedRadioButton = null
+        radioGroupLeft.removeAllViews()
+        radioGroupRight.removeAllViews()
+
+
+
+
+        val hours = arrayOf("3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM")
+        var goToLeft = true
+
+        hours.forEach {
+            val radioButton = RadioButton(this)
+            radioButton.id = View.generateViewId()
+            radioButton.text = it
+
+            radioButton.setOnClickListener { view ->
+                selectedRadioButton?.isChecked = false
+
+                selectedRadioButton = view as RadioButton?
+                selectedRadioButton?.isChecked = true
+            }
+
+            if (goToLeft)
+                radioGroupLeft.addView(radioButton)
+            else
+                radioGroupRight.addView(radioButton)
+            goToLeft = !goToLeft
+        }
+
     }
 }
